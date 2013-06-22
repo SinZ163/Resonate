@@ -60,26 +60,31 @@ namespace Resonate
                 for (int i = 0; i < users.Count; i++)
                 {
                     Connection conn = users[i];
-                    bool disconnect = false;
                     while (conn.protocol.out_queue.Count != 0)
                     {
-                        conn.protocol.out_queue.First.Value.WritePacket(conn.stream);
-                        disconnect = true;
-                        break;
+                        var packet = conn.protocol.out_queue.First.Value;
+                        packet.WritePacket(conn.stream);
+                        if (packet.ID == 255)
+                        {
+                            users.Remove(conn);
+                            i--;
+                            conn = null;
+                            Console.WriteLine("Killing client...!");
+                            break;
+                        }
                     }
-                    if (disconnect)
-                    {
-                        users.Remove(conn);
-                        continue;
-                    }
-                    else
+                    try
                     {
                         DateTime readTimeout = DateTime.Now.AddMilliseconds(10);
-                        while (conn.clientSocket.GetStream().DataAvailable && DateTime.Now < readTimeout)
+                        while (conn.stream.DataAvailable && DateTime.Now < readTimeout)
                         {
                             var packet = PacketReader.ReadPacket(conn.stream);
                             packet.Received(conn.protocolHandler);
                         }
+                    }
+                    catch
+                    {
+                        //Perfect plan?
                     }
                 }
             }

@@ -32,7 +32,6 @@ namespace Resonate.Protocol
         public void Kick(String message)
         {
             protocol.send(new Packet255KickDisconnect(message));
-            clientSocket.Close();
         }
     }
 }
