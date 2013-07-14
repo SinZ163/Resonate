@@ -31,7 +31,7 @@ namespace Resonate.Protocol
                 (byte)(value & 0xFF)
             }, 0, 2);
         }
-        public void WriteShort(NetworkStream stream,short value)
+        public static void WriteShort(NetworkStream stream,short value)
         {
             WriteUShort(stream,(ushort)value);
         }

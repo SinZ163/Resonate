@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Resonate.Protocol.Packet;
@@ -28,18 +29,21 @@ namespace Resonate.Protocol
         }
         public override void Receive(Packet002Handshake packet)
         {
-            Console.WriteLine("[Login] Received sane Packet 2 Handshake");
             packet.ReadPacket(connection.stream);
+            Console.WriteLine("[Login] Received sane Packet 2 Handshake");
+
+            //connection.protocol.send(new Packet253EncryptionRequest("ServerID", 
         }
         public override void Receive(Packet254GetInfo packet)
         {
+            packet.ReadPacket(connection.stream);
+            Console.WriteLine("[Login] Received Packet254GetInfo");
+
             int ProtocolVersion = 61;
             String TargetVersion = "1.5.2";
-            String MOTD = "A Custom Minecraft Server";
-            int OnlinePlayers = 1337;
-            int MaxPlayers = 9001;
-            Console.WriteLine("[Login] Received Packet254GetInfo");
-            packet.ReadPacket(connection.stream);
+            String MOTD = "§8A §4Custom§8 Minecraft Server";
+            int OnlinePlayers = 9001;
+            int MaxPlayers = 1337;
             connection.Kick("§1\0" + ProtocolVersion + "\0" + TargetVersion + "\0" + MOTD + "\0" + OnlinePlayers +"\0" + MaxPlayers);
         }
     }

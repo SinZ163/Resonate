@@ -50,7 +50,7 @@ namespace Resonate
         }
         static void Main(string[] args)
         {
-            Server server = new Server("127.0.0.1", 25565);
+            Server server = new Server(IPAddress.Any.ToString(), 28852);
         }
 
         private void NetworkWorker(object obj)

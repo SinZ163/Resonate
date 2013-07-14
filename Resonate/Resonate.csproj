@@ -62,6 +62,7 @@
     <Compile Include="Protocol\PacketReader.cs" />
     <Compile Include="Protocol\Packet\IPacket.cs" />
     <Compile Include="Protocol\Packet\Packet002Handshake.cs" />
+    <Compile Include="Protocol\Packet\Packet253EncryptionRequest.cs" />
     <Compile Include="Protocol\Packet\Packet254GetInfo.cs" />
     <Compile Include="Protocol\Packet\Packet255KickDisconnect.cs" />
     <Compile Include="Protocol\Protocol.cs" />
